@@ -216,4 +216,28 @@ function fillCup() {
 //END OF SIMULATOR CODE
  
 //Add your own code below.
- 
+
+function makeCupCoffee(volume: number) {
+    serial.writeLine(myDrinkMachine.getVolume().toString())
+    myDrinkMachine.startFillingContainer()
+    while (myDrinkMachine.getVolume() < volume) {
+        myDrinkMachine.wait(1)
+    }
+    myDrinkMachine.stopFillingContainer()
+    serial.writeLine(myDrinkMachine.getVolume().toString())
+    for(let i=0; i<130; i++) {
+        myDrinkMachine.addGrounds()
+    }
+    myDrinkMachine.turnHeaterOn()
+    myDrinkMachine.wait(1000)
+    serial.writeLine(myDrinkMachine.getTemperature().toString())
+
+    let filledCup = fillCup()
+    serial.writeLine(filledCup.descriptionString)
+
+    let concentration = filledCup.coffeeGrounds / filledCup.volume
+    serial.writeLine(concentration.toString())
+}
+
+makeCupCoffee(200)
+
